@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Lottery - Win Big with Pixels!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #6A5ACD;      /* Slate blue - main brand color */
+            --secondary: #FFD700;    /* Gold - for highlights */
+            --accent: #FF6347;       /* Tomato - for CTAs */
+            --dark: #2C2C54;         /* Dark blue for backgrounds */
+            --light: #F5F5F5;        /* Light gray for text */
+            --success: #50C878;      /* Emerald green for wins */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Background animations */
+        .bubbles {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(106, 90, 205, 0.2);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: rise 15s infinite ease-in;
+        }
+        
+        .bubble:nth-child(1) {
+            width: 40px;
+            height: 40px;
+            left: 10%;
+            animation-duration: 8s;
+        }
+        
+        .bubble:nth-child(2) {
+            width: 20px;
+            height: 20px;
+            left: 20%;
+            animation-duration: 5s;
+            animation-delay: 1s;
+        }
+        
+        .bubble:nth-child(3) {
+            width: 50px;
+            height: 50px;
+            left: 35%;
+            animation-duration: 7s;
+            animation-delay: 2s;
+        }
+        
+        .bubble:nth-child(4) {
+            width: 80px;
+            height: 80px;
+            left: 50%;
+            animation-duration: 11s;
+            animation-delay: 0s;
+        }
+        
+        .bubble:nth-child(5) {
+            width: 35px;
+            height: 35px;
+            left: 55%;
+            animation-duration: 6s;
+            animation-delay: 1s;
+        }
+        
+        .bubble:nth-child(6) {
+            width: 45px;
+            height: 45px;
+            left: 65%;
+            animation-duration: 8s;
+            animation-delay: 3s;
+        }
+        
+        .bubble:nth-child(7) {
+            width: 25px;
+            height: 25px;
+            left: 75%;
+            animation-duration: 7s;
+            animation-delay: 2s;
+        }
+        
+        .bubble:nth-child(8) {
+            width: 60px;
+            height: 60px;
+            left: 80%;
+            animation-duration: 6s;
+            animation-delay: 1s;
+        }
+        
+        .bubble:nth-child(9) {
+            width: 30px;
+            height: 30px;
+            left: 70%;
+            animation-duration: 9s;
+            animation-delay: 0s;
+        }
+        
+        .bubble:nth-child(10) {
+            width: 40px;
+            height: 40px;
+            left: 85%;
+            animation-duration: 5s;
+            animation-delay: 3s;
+        }
+        
+        @keyframes rise {
+            0% {
+                bottom: -100px;
+                transform: translateX(0);
+            }
+            50% {
+                transform: translate(100px, -500px);
+            }
+            100% {
+                bottom: 1080px;
+                transform: translateX(-200px);
+            }
+        }
+        
+        .dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        .dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: rgba(44, 44, 84, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--secondary);
+            text-shadow: 2px 2px 0 #000;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-login {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--primary);
+            margin-right: 15px;
+        }
+        
+        .btn-login:hover {
+            background: rgba(106, 90, 205, 0.2);
+        }
+        
+        .btn-register {
+            background: var(--accent);
+            color: var(--light);
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-register:hover {
+            background: transparent;
+            color: var(--accent);
+        }
+        
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 5%;
+            min-height: 80vh;
+        }
+        
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .hero-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            text-shadow: 3px 3px 0 #000;
+            line-height: 1.2;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .pixel-grid-preview {
+            width: 400px;
+            height: 400px;
+            background: #1a1a2e;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 20px rgba(106, 90, 205, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pixel {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border: 1px solid #222;
+        }
+        
+        .pixel.owned {
+            background: var(--primary);
+        }
+        
+        .pixel.winner {
+            background: var(--secondary);
+            animation: blink 2s infinite;
+            box-shadow: 0 0 10px var(--secondary);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+        
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--primary);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 5%;
+            background: rgba(26, 26, 46, 0.7);
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--secondary);
+            text-shadow: 2px 2px 0 #000;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: rgba(44, 44, 84, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--primary);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .feature-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 5%;
+            text-align: center;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        
+        .step {
+            width: 250px;
+            position: relative;
+            margin: 20px;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-content {
+            background: rgba(44, 44, 84, 0.8);
+            padding: 30px 20px;
+            border-radius: 10px;
+            margin-top: -30px;
+            padding-top: 50px;
+            border: 2px solid var(--primary);
+        }
+        
+        .step-content h3 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        /* Current Draw */
+        .current-draw {
+            padding: 100px 5%;
+            text-align: center;
+            background: rgba(26, 26, 46, 0.7);
+        }
+        
+        .draw-container {
+            background: rgba(44, 44, 84, 0.8);
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 4px solid var(--secondary);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .draw-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #ccc;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 30px 0;
+            border: 2px solid var(--primary);
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            width: 65%;
+            border-radius: 8px;
+            transition: width 1s ease;
+        }
+        
+        .timer {
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 5%;
+            text-align: center;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .testimonial-card {
+            background: rgba(44, 44, 84, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+            border: 2px solid transparent;
+            transition: transform 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: scale(1.05);
+            border: 2px solid var(--secondary);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .author-details h4 {
+            color: var(--secondary);
+        }
+        
+        /* FAQ Preview */
+        .faq-preview {
+            padding: 100px 5%;
+            text-align: center;
+            background: rgba(26, 26, 46, 0.7);
+        }
+        
+        .faq-list {
+            max-width: 800px;
+            margin: 50px auto 0;
+            text-align: left;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background: rgba(44, 44, 84, 0.8);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: rgba(44, 44, 84, 0.5);
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            padding: 50px 5% 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content {
+                margin-bottom: 50px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+            
+            .draw-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--dark);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: left 0.3s ease;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animations -->
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    
+    <div class="dots" id="dots"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjZmZkNzAwIiBkPSJNNDQ4IDBIMjU2TDIyNCA5NkgyNTZMODAgMjU2aDk2bC05NiAxNjBoMTkybDMyLTk2LTMyIDBoOTZMNTEyIDI1NmgtOTZaIi8+PC9zdmc+" alt="Pixel Lottery Logo">
+            <h1>Pixel Lottery</h1>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#current-draw">Current Draw</a></li>
+            <li><a href="#winners">Winners</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        
+        <div class="auth-buttons">
+            <a href="#" class="btn btn-login">Login</a>
+            <a href="#" class="btn btn-register">Register</a>
+        </div>
+        
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Win Big with Pixel Lottery!</h2>
+            <p>Purchase pixels on our canvas for a chance to win amazing prizes. When the draw runs, if your pixel is selected, you instantly win the revealed prize!</p>
+            <a href="#" class="btn btn-primary">Play Now</a>
+        </div>
+        
+        <div class="hero-image">
+            <div class="pixel-grid-preview" id="pixel-grid"></div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why Choose Pixel Lottery?</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3>Instant Wins</h3>
+                <p>When the draw runs, if your pixel is selected, you instantly win the prize associated with that pixel.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Secure & Fair</h3>
+                <p>Our system uses provably fair algorithms to ensure complete transparency and fairness in every draw.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h3>Pixel Ownership</h3>
+                <p>You own the pixels you purchase. They're displayed with your username and can be part of multiple draws.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Select Pixels</h3>
+                    <p>Choose from available pixels on our grid. Each pixel can be purchased for a fixed price.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Make Payment</h3>
+                    <p>Complete your purchase using one of our secure payment methods.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Wait for Draw</h3>
+                    <p>The draw happens at regular intervals. Watch as winning pixels are selected!</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Claim Prize</h3>
+                    <p>If your pixel wins, you'll instantly receive your prize! Winners are notified immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Current Draw -->
+    <section class="current-draw" id="current-draw">
+        <h2 class="section-title">Current Draw</h2>
+        
+        <div class="draw-container">
+            <h3>Summer Jackpot Draw</h3>
+            <p>Next draw happening in:</p>
+            
+            <div class="timer">02:14:36</div>
+            
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            
+            <div class="draw-stats">
+                <div class="stat">
+                    <div class="stat-value">4,382</div>
+                    <div class="stat-label">Pixels Claimed</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-value">$3,450</div>
+                    <div class="stat-label">Prize Pool</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-value">127</div>
+                    <div class="stat-label">Prizes Available</div>
+                </div>
+            </div>
+            
+            <a href="#" class="btn btn-primary">View Grid & Buy Pixels</a>
+        </div>
+    </section>
+    
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2 class="section-title">What Players Say</h2>
+        
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"I couldn't believe it when I won $500 on my first pixel! The process was so easy and the draw was really exciting to watch."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JD</div>
+                    <div class="author-details">
+                        <h4>John Doe</h4>
+                        <p>Won $500</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">"I've tried many online games, but Pixel Lottery is by far the most transparent and fun. The pixel ownership concept is genius!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SM</div>
+                    <div class="author-details">
+                        <h4>Sarah Miller</h4>
+                        <p>Won $1,200</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The user interface is beautiful and the gameplay is straightforward. I love the retro pixel aesthetic they've gone with!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RJ</div>
+                    <div class="author-details">
+                        <h4>Robert Johnson</h4>
+                        <p>Won $750</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Preview -->
+    <section class="faq-preview" id="faq">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    How often do draws happen? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Draws happen weekly. The exact day and time is displayed on the Current Draw section of the homepage.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    How are winners selected? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We use a provably fair random number generator to select winning pixels. The algorithm is transparent and verifiable.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    Can I buy multiple pixels? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, you can purchase as many pixels as you like. Each pixel gives you an additional chance to win.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Pixel Lottery</h3>
+                <p>The revolutionary pixel-based lottery game where you can win amazing prizes by owning pixels on our canvas.</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#current-draw">Current Draw</a></li>
+                    <li><a href="#winners">Winners</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Responsible Gaming</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Pixel Lottery. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Create dots for background
+        function createDots() {
+            const dotsContainer = document.getElementById('dots');
+            const dotsCount = 100;
+            
+            for (let i = 0; i < dotsCount; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                
+                // Random position
+                dot.style.left = `${Math.random() * 100}%`;
+                dot.style.top = `${Math.random() * 100}%`;
+                
+                // Random size
+                const size = Math.random() * 4 + 2;
+                dot.style.width = `${size}px`;
+                dot.style.height = `${size}px`;
+                
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        // Create pixel grid for hero section
+        function createPixelGrid() {
+            const grid = document.getElementById('pixel-grid');
+            const pixels = 400; // 20x20 grid
+            
+            for (let i = 0; i < pixels; i++) {
+                const pixel = document.createElement('div');
+                pixel.classList.add('pixel');
+                
+                // Calculate position
+                const x = (i % 20) * 20;
+                const y = Math.floor(i / 20) * 20;
+                
+                pixel.style.left = `${x}px`;
+                pixel.style.top = `${y}px`;
+                
+                // Randomly mark some as owned and a couple as winners
+                if (Math.random() > 0.7) {
+                    pixel.classList.add('owned');
+                    
+                    if (Math.random() > 0.9) {
+                        pixel.classList.add('winner');
+                    }
+                }
+                
+                grid.appendChild(pixel);
+            }
+        }
+        
+        // FAQ accordion functionality
+        function setupFAQ() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        }
+        
+        // Mobile menu functionality
+        function setupMobileMenu() {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                
+                // Change icon
+                const icon = menuBtn.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        }
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            createDots();
+            createPixelGrid();
+            setupFAQ();
+            setupMobileMenu();
+            
+            // Timer countdown for current draw (demo)
+            const timerElement = document.querySelector('.timer');
+            let timeLeft = 2 * 60 * 60 + 14 * 60 + 36; // 2 hours, 14 minutes, 36 seconds
+            
+            setInterval(() => {
+                timeLeft--;
+                
+                if (timeLeft >= 0) {
+                    const hours = Math.floor(timeLeft / 3600);
+                    const minutes = Math.floor((timeLeft % 3600) / 60);
+                    const seconds = timeLeft % 60;
+                    
+                    timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
